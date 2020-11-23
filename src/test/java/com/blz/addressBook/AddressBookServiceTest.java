@@ -1,5 +1,7 @@
 package com.blz.addressBook;
 
+import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -61,5 +63,14 @@ public class AddressBookServiceTest {
 		Assert.assertEquals(1, count.get("Mumbai"), 0);
 		Assert.assertEquals(1, count.get("Surat"), 0);
 		Assert.assertEquals(1, count.get("Jaipur"), 0);
+	}
+
+	@Test
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws AddressBookException {
+		addressBookService.readAddressBookData(IOService.DB_IO);
+		addressBookService.addContactToAddressBook(4, "Lmn", "Cvs", Date.valueOf("2020-01-01"), "Office",
+				"MSEB", "Thane", "Maharashtra", 400601, "9900400004", "Lmncvs@gmail.com");
+		boolean result = addressBookService.checkAddressBookInSyncWithDB("Lmn");
+		Assert.assertTrue(result);
 	}
 }
