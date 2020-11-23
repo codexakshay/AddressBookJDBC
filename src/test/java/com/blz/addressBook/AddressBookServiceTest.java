@@ -1,6 +1,8 @@
 package com.blz.addressBook;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,5 +63,33 @@ public class AddressBookServiceTest {
 		Assert.assertEquals(1, count.get("Mumbai"), 0);
 		Assert.assertEquals(1, count.get("Surat"), 0);
 		Assert.assertEquals(1, count.get("Jaipur"), 0);
+	}
+
+	@Test
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws AddressBookException {
+		addressBookService.readAddressBookData(IOService.DB_IO);
+		addressBookService.addContactToAddressBook(4, "Lmn", "Cvs", Date.valueOf("2020-01-01"), "Office",
+				"MSEB Office", "Thane", "Maharashtra", 400601, "9900400004", "Lmncvs@gmail.com");
+		boolean result = addressBookService.checkAddressBookInSyncWithDB("Lmn");
+		Assert.assertTrue(result);
+	}
+	
+	@Test
+	public void givenMultipleContact_WhenAdded_ShouldSyncWithDB() throws AddressBookException {
+		AddressBookData[] contactArray = {
+								new AddressBookData(5,"Xml","Htl",Date.valueOf("2020-03-09"),"Home","Kherwadi",
+										"Mumbai","Maharahstra",400001,"9900445005", "xmlhtl@gmail.com"),
+								new AddressBookData(6,"Asd","Lkj",Date.valueOf("2019-05-1"),"Office","Charai","Thane",
+										"AndhraPradesh",400601,"9988773006","asd@gmail.com"),
+								new AddressBookData(7,"Tvb","Nyu",Date.valueOf("2018-04-01"),"Home","Chowpatty","Mumbai",
+										"Maharashtra", 400007,"9988773007","Tvb@yahoo.com")
+		};
+		addressBookService.addMultipleContactsToDBUsingThreads(Arrays.asList(contactArray));
+		boolean isSynced1 = addressBookService.checkAddressBookInSyncWithDB("Xml");
+		boolean isSynced2 = addressBookService.checkAddressBookInSyncWithDB("Asd");
+		boolean isSynced3 = addressBookService.checkAddressBookInSyncWithDB("Tvb");
+		Assert.assertTrue(isSynced1);
+		Assert.assertTrue(isSynced2);
+		Assert.assertTrue(isSynced3);
 	}
 }
