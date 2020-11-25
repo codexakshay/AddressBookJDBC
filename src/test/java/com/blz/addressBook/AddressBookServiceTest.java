@@ -80,7 +80,7 @@ public class AddressBookServiceTest {
 								new AddressBookData(5,"Xml","Htl",Date.valueOf("2020-03-09"),"Home","Kherwadi",
 										"Mumbai","Maharahstra",400001,"9900445005", "xmlhtl@gmail.com"),
 								new AddressBookData(6,"Asd","Lkj",Date.valueOf("2019-05-1"),"Office","Charai","Thane",
-										"AndhraPradesh",400601,"9988773006","asd@gmail.com"),
+										"Maharashtra",400601,"9988773006","asd@gmail.com"),
 								new AddressBookData(7,"Tvb","Nyu",Date.valueOf("2018-04-01"),"Home","Chowpatty","Mumbai",
 										"Maharashtra", 400007,"9988773007","Tvb@yahoo.com")
 		};
